@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 12:13:47 by dhontani          #+#    #+#             */
-/*   Updated: 2026/01/15 12:39:53 by dhontani         ###   ########.fr       */
+/*   Created: 2026/01/15 11:46:55 by dhontani          #+#    #+#             */
+/*   Updated: 2026/01/15 11:53:34 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-#define LIBFT_H
+#include <libft.h>
 
-#include <stdio.h>
-#include <unistd.h>
+int ft_strlen(const char *str)
+{
+    int i = 0;
 
-int ft_isalnum(int c);
-int ft_isalpha(int c);
-int ft_isdigit(int c);
-int ft_isascii(int c);
-int ft_isprint(int c);
-int ft_strlen(const char *str);
-
-#endif
+    while (str[i] != '\0')
+        i++;
+    return (i);
+}
