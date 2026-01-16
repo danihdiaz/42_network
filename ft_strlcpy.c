@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strncmp.c                                          :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dhontani <dhontani@student.42.fr>          #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-01-16 10:39:07 by dhontani          #+#    #+#             */
-/*   Updated: 2026-01-16 10:39:07 by dhontani         ###   ########.fr       */
+/*   Created: 2026-01-16 14:51:41 by dhontani          #+#    #+#             */
+/*   Updated: 2026-01-16 14:51:41 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_strncmp(const char *s1, const char *s2, size_t n)
+int ft_strlcpy(char *dst,const char *src, size_t dstsize)
 {
     size_t i;
-    int res;
-    
-    i = 0;
-    res = 0;
+    size_t j;
 
-    if (n == 0)
-        return (0);
-    while (i < n && s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+    i = 0;
+    j = 0;
+
+    if (dstsize == 0)
+    {
+        while (src[j] != '\0')
+            j++;
+        return (j);
+    }
+    while (i < dstsize - 1 && src[j] != '\0')
+    {    
+        dst[i] = src[j];
         i++;
-    if (i == n)
-        return (0);
-    if (s1[i] != s2[i])
-            res = s1[i] - s2[i];
-    return (res);
+        j++;
+    }
+    if (dstsize > 0)
+        dst[i] = '\0';
+    while (src[j] != '\0')
+        j++;
+    return (j);
 }
