@@ -15,6 +15,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <limits.h>
 
 int ft_isalnum(int c);
 int ft_isalpha(int c);
@@ -27,5 +28,6 @@ size_t ft_strlcpy(char *dst, const char *src, size_t dstsize);
 int ft_tolower(int c);
 int ft_toupper(int c);
 size_t ft_strlcat(char *dst, const char *src, size_t dstsize);
+void ft_bzero(void *s, size_t n);
 
 #endif

@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "stdio.h"
 
-void bzero(void *s, size_t n)
+void ft_bzero(void *s, size_t n)
 {
     unsigned char *s1 = (unsigned char *)s;
     size_t i;
@@ -24,3 +25,18 @@ void bzero(void *s, size_t n)
         i++;
     }
 }
+/*
+int main(void)
+{
+    char s[] = "hola";
+    int i;
+
+    i = 0;
+    ft_bzero(s, 5);
+    while (i < 5)
+    {
+        printf("%d", s[i]);
+        i++;
+    }
+}
+*/

@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                          :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dhontani <dhontani@student.42.fr>          #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-01-16 10:39:07 by dhontani          #+#    #+#             */
-/*   Updated: 2026-01-16 10:39:07 by dhontani         ###   ########.fr       */
+/*   Created: 2026-01-21 15:11:30 by dhontani          #+#    #+#             */
+/*   Updated: 2026-01-21 15:11:30 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_strncmp(const char *s1, const char *s2, size_t n)
+char *ft_substr(char const *s, unsigned int start, size_t len)
 {
     size_t i;
-    int res;
-    
-    i = 0;
-    res = 0;
+    unsigned const char *s1;
+    unsigned char *p;
 
-    if (n == 0)
-        return (0);
-    while (i < n && s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+    s1 = (unsigned char *)s;
+    i = 0;
+
+    p = malloc(len);
+    while (s1[i] && i != start)
         i++;
-    if (i == n)
-        return (0);
-    if (s1[i] != s2[i])
-            res = s1[i] - s2[i];
-    return (res);
+    if (i == start)
+        while (s[i] && i < len)
+            i++;
+    
+
 }
