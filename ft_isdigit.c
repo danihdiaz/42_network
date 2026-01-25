@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 15:15:02 by dhontani          #+#    #+#             */
-/*   Updated: 2026/01/25 18:39:05 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/01/25 20:25:45 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 int	ft_isdigit(int c)
 {
-	return ((unsigned char)c >= '0' && (unsigned char)c <= '9');
+	return (c >= '0' && c <= '9');
 }
+

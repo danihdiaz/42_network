@@ -6,17 +6,18 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 12:13:47 by dhontani          #+#    #+#             */
-/*   Updated: 2026/01/24 20:15:17 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/01/25 19:40:45 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
-#define	LIBFT_H
+# define LIBFT_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <limits.h>
-#include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <limits.h>
+# include <stdlib.h>
+# include <stddef.h>
 
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);

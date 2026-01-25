@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr                                          :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhontani <dhontani@student.42.fr>          #+#  +:+       +#+        */
+/*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-01-19 10:27:49 by dhontani          #+#    #+#             */
-/*   Updated: 2026-01-19 10:27:49 by dhontani         ###   ########.fr       */
+/*   Created: 2026/01/19 10:27:49 by dhontani          #+#    #+#             */
+/*   Updated: 2026/01/25 19:54:54 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,14 @@ char	*ft_strchr(const char *s, int c)
 	size_t	i;
 
 	i = 0;
-	while (s[i] && s[i] != (char)c)
+	while (s[i])
+	{
+		if (s[i] == (char)c)
+			return ((char *)s + i);
 		i++;
-	if (s[i] == (char)c)
-		return (s + i);
+	}
+	if ((char)c == '\0')
+		return ((char *)s + i);
 	return (NULL);
 }
+

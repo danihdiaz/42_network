@@ -6,9 +6,11 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 14:53:55 by dhontani          #+#    #+#             */
-/*   Updated: 2026/01/24 18:47:35 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/01/25 19:43:04 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 void	*ft_memset(void *s, int c, size_t n)
 {
