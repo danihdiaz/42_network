@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 11:38:51 by dhontani          #+#    #+#             */
-/*   Updated: 2026/01/24 18:29:31 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/01/25 18:33:36 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,5 @@
 
 int	ft_isprint(int c)
 {
-	if (c >= 32 && c <= 126)
-		return (1);
-	else
-		return (0);
+	return ((unsigned char)c >= 32 && (unsigned char)c <= 126);
 }
