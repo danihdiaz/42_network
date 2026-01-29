@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:03:17 by dhontani          #+#    #+#             */
-/*   Updated: 2026/01/26 17:59:35 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/01/29 20:10:36 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	dst_len = 0;
 	while (dst_len < size && dst[dst_len])
 		dst_len++;
-
 	if (dst_len == size)
 		return (size + src_len);
-
 	i = dst_len;
 	while (*src && i + 1 < size)
 		dst[i++] = *src++;
