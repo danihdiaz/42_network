@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.h                                           :+:      :+:    :+:   */
+/*   ft_printvoid.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dhontani <dhontani@student.42.fr>          #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-02-03 12:57:17 by dhontani          #+#    #+#             */
-/*   Updated: 2026-02-03 12:57:17 by dhontani         ###   ########.fr       */
+/*   Created: 2026-02-03 16:36:19 by dhontani          #+#    #+#             */
+/*   Updated: 2026-02-03 16:36:19 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTF_H
-# define PRINTF_H
+#include "printf.h"
 
-# include "libft.h"
-# include <unistd.h>
-# include <stdarg.h>
-# include <stdint.h>
+int	ft_printvoid(va_list vargs)
+{
+	void		*c;
+	uintptr_t	z;
 
-int	ft_printf(const char *format, ...);
+	c = va_arg(vargs, void *);
+	z = (uintptr_t)c;
 
-#endif
+}
