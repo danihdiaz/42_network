@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 12:56:14 by dhontani          #+#    #+#             */
-/*   Updated: 2026/02/10 20:03:43 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/02/11 20:29:43 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	*extract_line(char *stash)
 	line = malloc (i + 2);
 	if (!line)
 		return (NULL);
-	line[i] = '\0';
 	i = 0;
 	while (stash[i] != '\n' && stash[i])
 	{
@@ -81,4 +80,39 @@ char	*update_stash(char *stash)
 	temp[size] = '\0';
 	free(stash);
 	return (temp);
+}
+
+char	*stash_join(char *buffer, char *stash)
+{
+	size_t	i;
+	char	*temp;
+	size_t	k;
+	size_t	len_stash;
+
+	i = 0;
+	if (!stash)
+		len_stash = 0;
+	else
+		len_stash = strlen(stash);
+	temp = malloc(len_stash + (strlen(buffer)) + 1);
+	if (!temp)
+		return (NULL);
+	if (stash)
+	{
+		while (stash[i])
+			temp[i] = stash[i++];
+	}
+	k = 0;
+	while (buffer[k])
+		temp[i++] = buffer[k++];
+	temp[i] = '\0';
+	free(stash);
+	return (temp);
+}
+
+char	*free_all(char *buffer, char *stash)
+{
+	free(buffer);
+	free(stash);
+	return (NULL);
 }
