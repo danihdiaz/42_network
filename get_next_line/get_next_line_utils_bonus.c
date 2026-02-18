@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 12:56:14 by dhontani          #+#    #+#             */
-/*   Updated: 2026/02/17 13:01:07 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/02/17 19:47:45 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	has_newline(char *stash)
 {
@@ -53,7 +53,7 @@ char	*extract_line(char *stash)
 	return (line);
 }
 
-char	*update_stash(char *stash, size_t *stash_len)
+char	*update_stash(char *stash)
 {
 	size_t	i;
 	size_t	j;
@@ -65,11 +65,11 @@ char	*update_stash(char *stash, size_t *stash_len)
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (!stash[i] || !stash[i + 1])
-		return (free(stash), *stash_len = 0, NULL);
+		return (free(stash), NULL);
 	j = 0;
-	temp = malloc(*stash_len - i - 1);
+	temp = malloc(ft_strlen(stash) - i);
 	if (!temp)
-		return (free(stash), *stash_len = 0, NULL);
+		return (free(stash), NULL);
 	j = 0;
 	while (stash[i + 1 + j])
 	{
@@ -77,11 +77,10 @@ char	*update_stash(char *stash, size_t *stash_len)
 		j++;
 	}
 	temp[j] = '\0';
-	*stash_len = j;
 	return (free(stash), temp);
 }
 
-char	*stash_join(char *stash, char *buffer, size_t *stash_len)
+char	*stash_join(char *stash, char *buffer)
 {
 	size_t	i;
 	size_t	j;
@@ -94,19 +93,20 @@ char	*stash_join(char *stash, char *buffer, size_t *stash_len)
 	if (!stash)
 		tmp = malloc(ft_strlen(buffer) + 1);
 	else
-		tmp = malloc(*stash_len + ft_strlen(buffer) + 1);
+		tmp = malloc(ft_strlen(stash) + ft_strlen(buffer) + 1);
 	if (!tmp)
-		return (free(stash), *stash_len = 0, NULL);
-	while (i < *stash_len)
+		return (free(stash), NULL);
+	if (stash)
 	{
-		tmp[i] = stash[i];
-		i++;
+		while (stash[i])
+		{
+			tmp[i] = stash[i];
+			i++;
+		}
 	}
 	while (buffer[j])
 		tmp[i++] = buffer[j++];
-	tmp[i] = '\0';
-	*stash_len = i;
-	return (free(stash), tmp);
+	return (free(stash), tmp[i] = '\0', tmp);
 }
 
 size_t	ft_strlen(const char *str)

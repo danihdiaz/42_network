@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 12:07:06 by dhontani          #+#    #+#             */
-/*   Updated: 2026/02/17 12:49:10 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/02/17 19:42:02 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <stdio.h>
 
-static void	cleanup_and_reset(char **stash, size_t *stash_len)
+static void	cleanup_and_reset(char **stash)
 {
 	free(*stash);
 	*stash = NULL;
-	*stash_len = 0;
 }
 
-static int	read_to_stash(int fd, char **stash, size_t *stash_len, char *buffer)
+static int	read_to_stash(int fd, char **stash, char *buffer)
 {
 	int	n;
 
@@ -29,13 +28,13 @@ static int	read_to_stash(int fd, char **stash, size_t *stash_len, char *buffer)
 	{
 		n = read(fd, buffer, BUFFER_SIZE);
 		if (n == -1)
-			return (cleanup_and_reset(stash, stash_len), -1);
+			return (cleanup_and_reset(stash), -1);
 		if (n > 0)
 		{
 			buffer[n] = '\0';
-			*stash = stash_join(*stash, buffer, stash_len);
+			*stash = stash_join(*stash, buffer);
 			if (!*stash)
-				return (*stash_len = 0, -1);
+				return (-1);
 		}
 	}
 	return (0);
@@ -43,8 +42,7 @@ static int	read_to_stash(int fd, char **stash, size_t *stash_len, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char		*stash;
-	static size_t	stash_len;
+	static char		*stash[MAX_FD];
 	char			*buffer;
 	char			*line;
 
@@ -53,19 +51,19 @@ char	*get_next_line(int fd)
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 	{
-		if (stash)
-			cleanup_and_reset(&stash, &stash_len);
+		if (stash[fd])
+			cleanup_and_reset(&stash[fd]);
 		return (NULL);
 	}
-	if (read_to_stash(fd, &stash, &stash_len, buffer) == -1)
+	if (read_to_stash(fd, &stash[fd], buffer) == -1)
 		return (free(buffer), NULL);
-	line = extract_line(stash);
+	line = extract_line(stash[fd]);
 	if (!line)
 	{
-		if (stash)
-			cleanup_and_reset(&stash, &stash_len);
+		if (stash[fd])
+			cleanup_and_reset(&stash[fd]);
 		return (free(buffer), NULL);
 	}
-	stash = update_stash(stash, &stash_len);
+	stash[fd] = update_stash(stash[fd]);
 	return (free(buffer), line);
 }
