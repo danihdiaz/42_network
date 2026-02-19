@@ -6,12 +6,11 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 12:07:06 by dhontani          #+#    #+#             */
-/*   Updated: 2026/02/17 19:42:02 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/02/19 21:04:09 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include <stdio.h>
 
 static void	cleanup_and_reset(char **stash)
 {
