@@ -67,7 +67,7 @@ char	*update_stash(char *stash, size_t *stash_len)
 	if (!stash[i] || !stash[i + 1])
 		return (free(stash), *stash_len = 0, NULL);
 	j = 0;
-	temp = malloc(*stash_len - i - 1);
+	temp = malloc(*stash_len - i);
 	if (!temp)
 		return (free(stash), *stash_len = 0, NULL);
 	j = 0;

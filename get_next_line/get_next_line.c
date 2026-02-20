@@ -49,7 +49,7 @@ char	*get_next_line(int fd)
 	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
+		return (cleanup_and_reset(&stash, &stash_len), NULL);
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 	{
