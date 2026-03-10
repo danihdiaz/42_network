@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lugarcia <lugarcia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 13:50:23 by lugarcia          #+#    #+#             */
-/*   Updated: 2026/03/02 17:09:00 by lugarcia         ###   ########.fr       */
+/*   Updated: 2026/03/10 18:30:47 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ void	rb(t_stack **stack_b);
 void	rr(t_stack **stack_a, t_stack **stack_b);
 void	pa(t_stack **stack_a, t_stack **stack_b);
 void	pb(t_stack **stack_a, t_stack **stack_b);
+void	rra(t_stack **stack_a);
+void	rrb(t_stack **stack_b);
+void	rrr(t_stack **stack_a, t_stack **stack_b);
 void	print_stacks(t_stack *a, t_stack *b);
 t_stack	*ft_stack_init(int offset, char **argv);
 size_t	ft_find_flags(int argc, char **argv);
@@ -48,8 +51,10 @@ int		ft_ceil_div(int n, int i);
 int		ft_listsize(t_stack *lst);
 int		get_chunk(int chunk_size, int index);
 int		ft_find_pos(t_stack **stack, int index);
-void	ft_rot_stack(t_stack **stack, int lst_sz, int pos, char ab);
-void	rot_down(t_stack **stack, char ab);
-void	rot_up(t_stack **stack, char ab);
+void	ft_rot_stack(t_stack **stack, int lst_sz, int pos);
+void	med_alg(t_stack **stack_a, t_stack **stack_b);
+void	push_chunks(t_stack **stack_a, t_stack **stack_b, int chksz, int chnks);
+void	ft_pck_op(t_stack **stack_a, t_stack **stack_b, int lst_sz, int index);
+t_stack	*ft_listlast(t_stack *lst);
 
 #endif

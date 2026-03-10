@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lugarcia <lugarcia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 17:48:14 by lugarcia          #+#    #+#             */
-/*   Updated: 2026/03/02 17:07:37 by lugarcia         ###   ########.fr       */
+/*   Updated: 2026/03/10 14:13:40 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_stack	*ft_parse_input(int argc, char **argv)
 	offset = ft_find_flags(argc, argv);
 	if (!ft_check_args(offset, argv))
 		return (write(2, "error\n", 6), NULL);
-stack_a = ft_stack_init(offset, argv);
+	stack_a = ft_stack_init(offset, argv);
 	if (!stack_a)
 		return (write(2, "error\n", 6), NULL);
 	print_stacks(stack_a, stack_b);

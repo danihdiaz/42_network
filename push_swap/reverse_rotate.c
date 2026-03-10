@@ -6,13 +6,13 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 13:48:53 by dhontani          #+#    #+#             */
-/*   Updated: 2026/02/24 13:59:14 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/03/10 18:30:53 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	reverse_rotate(t_stack **stack, char *op)
+static void	reverse_rotate(t_stack **stack, char *op)
 {
 	t_stack	*current;
 	t_stack	*tmp;
@@ -22,7 +22,7 @@ void	reverse_rotate(t_stack **stack, char *op)
 	current = *stack;
 	while (current->next->next != NULL)
 		current = current->next;
-	tmp = ft_lstlast(*stack);
+	tmp = ft_listlast(*stack);
 	current->next = NULL;
 	tmp->next = *stack;
 	*stack = tmp;

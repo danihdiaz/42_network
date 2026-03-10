@@ -6,11 +6,20 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 13:22:52 by dhontani          #+#    #+#             */
-/*   Updated: 2026/02/24 13:43:38 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/03/10 18:30:40 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+t_stack	*ft_listlast(t_stack *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
 
 static void	rotate(t_stack **stack, char *op)
 {
@@ -18,7 +27,7 @@ static void	rotate(t_stack **stack, char *op)
 
 	tmp = *stack;
 	*stack = (*stack)->next;
-	ft_lstlast(*stack)->next = tmp;
+	ft_listlast(*stack)->next = tmp;
 	tmp->next = NULL;
 	if (op[0])
 		printf("%s", op);

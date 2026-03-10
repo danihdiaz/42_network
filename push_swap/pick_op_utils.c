@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pick_op_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhontani <dhontani@student.42.fr>          #+#  +:+       +#+        */
+/*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-03-09 15:55:42 by dhontani          #+#    #+#             */
-/*   Updated: 2026-03-09 15:55:42 by dhontani         ###   ########.fr       */
+/*   Created: 2026/03/09 15:55:42 by dhontani          #+#    #+#             */
+/*   Updated: 2026/03/10 13:45:41 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	rot_up(t_stack **stack, char ab)
-{
-	if (ab == 'a')
-		ra(stack);
-	else
-		rb(stack);
-}
-
-void	rot_down(t_stack **stack, char ab)
-{
-	if (ab == 'a')
-		rra(stack);
-	else
-		rrb(stack);
-}
 
 int	ft_find_pos(t_stack **stack, int index)
 {
@@ -45,7 +29,7 @@ int	ft_find_pos(t_stack **stack, int index)
 	return (ind_pos);
 }
 
-void	ft_rot_stack(t_stack **stack, int lst_sz, int pos, char ab)
+void	ft_rot_stack(t_stack **stack, int lst_sz, int pos)
 {
 	int	lst_pos;
 
@@ -53,7 +37,7 @@ void	ft_rot_stack(t_stack **stack, int lst_sz, int pos, char ab)
 	{
 		while (pos > 0)
 		{
-			rot_up(stack, ab);
+			rb(stack);
 			pos--;
 		}
 	}
@@ -62,7 +46,7 @@ void	ft_rot_stack(t_stack **stack, int lst_sz, int pos, char ab)
 		lst_pos = lst_sz - pos;
 		while (lst_pos > 0)
 		{
-			rot_down(stack, ab);
+			rrb(stack);
 			lst_pos--;
 		}
 	}

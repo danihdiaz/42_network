@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   medium_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhontani <dhontani@student.42.fr>          #+#  +:+       +#+        */
+/*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-03-09 11:38:28 by dhontani          #+#    #+#             */
-/*   Updated: 2026-03-09 11:38:28 by dhontani         ###   ########.fr       */
+/*   Created: 2026/03/09 11:38:28 by dhontani          #+#    #+#             */
+/*   Updated: 2026/03/10 13:45:54 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_pck_op(t_stack **stack_a, t_stack **stack_b, int lst_sz, int index)
 	int	pos;
 
 	pos = ft_find_pos(stack_b, index);
-	ft_rot_stack(stack_b, lst_sz, pos, 'b');
+	ft_rot_stack(stack_b, lst_sz, pos);
 	pa(stack_a, stack_b);
 }
 
