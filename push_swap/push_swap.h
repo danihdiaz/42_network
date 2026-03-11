@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 13:50:23 by lugarcia          #+#    #+#             */
-/*   Updated: 2026/03/11 13:42:30 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/03/11 19:03:29 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,12 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
-t_stack	*ft_parse_input(int argc, char **argv);
+# define SIMPLE   0
+# define MEDIUM   1
+# define COMPLEX  2
+# define ADAPTIVE 3
+
+t_stack	*ft_parse_input(int argc, char **argv, int *strategy, int *bench);
 float	compute_disorders(t_stack *stack_a);
 int		ft_is_valid_number(char *str);
 int		ft_check_args(int offset, char **argv);
@@ -41,7 +46,7 @@ void	rrb(t_stack **stack_b);
 void	rrr(t_stack **stack_a, t_stack **stack_b);
 void	print_stacks(t_stack *a, t_stack *b);
 t_stack	*ft_stack_init(int offset, char **argv);
-size_t	ft_find_flags(int argc, char **argv);
+size_t	ft_find_flags(int argc, char **argv, int *strategy, int *bench);
 void	free_splt(char **splt);
 void	ft_lstad_back(t_stack **lst, t_stack *new);
 t_stack	*ft_new_node(int num);
@@ -57,5 +62,7 @@ void	push_chunks(t_stack **stack_a, t_stack **stack_b, int chksz, int chnks);
 void	ft_pck_op(t_stack **stack_a, t_stack **stack_b, int lst_sz, int index);
 t_stack	*ft_listlast(t_stack *lst);
 void	adaptive_alg(t_stack **a, t_stack **b, float disorder);
+int		ft_get_strategy(char *arg);
+int		ft_parse_flags(int argc, char **argv, int *strategy, int *bench);
 
 #endif

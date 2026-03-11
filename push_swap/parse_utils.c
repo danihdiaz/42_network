@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhontani <dhontani@student.42.fr>          #+#  +:+       +#+        */
+/*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-03-03 13:16:10 by dhontani          #+#    #+#             */
-/*   Updated: 2026-03-03 13:16:10 by dhontani         ###   ########.fr       */
+/*   Created: 2026/03/03 13:16:10 by dhontani          #+#    #+#             */
+/*   Updated: 2026/03/11 19:01:53 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-size_t	ft_find_flags(int argc, char **argv)
+size_t	ft_find_flags(int argc, char **argv, int *strategy, int *bench)
 {
 	size_t	i;
 
+	*strategy = -1;
+	*bench = 0;
+	if (!ft_parse_flags(argc, argv, strategy, bench))
+		return (0);
 	i = 1;
-	while (i < (size_t)argc && (!ft_strncmp(argv[i], "--simple", 11)
-			|| !ft_strncmp(argv[i], "--medium", 11)
-			|| !ft_strncmp(argv[i], "--complex", 11)
-			|| !ft_strncmp(argv[i], "--adaptive", 11)))
+	while (i < (size_t)argc && argv[i][0] == '-')
 		i++;
 	return (i);
 }

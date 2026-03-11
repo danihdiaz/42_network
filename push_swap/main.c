@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 11:26:33 by dhontani          #+#    #+#             */
-/*   Updated: 2026/03/10 19:13:17 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/03/11 18:31:32 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,31 @@ int	main(int argc, char **argv)
 {
 	t_stack	*stack_a;
 	t_stack	*stack_b;
+	int		strategy;
+	int		bench;
+	float	disorder;
 
 	stack_a = NULL;
 	stack_b = NULL;
-	stack_a = ft_parse_input(argc, argv);
+	strategy = ADAPTIVE;
+	bench = 0;
+	if (argc < 2)
+		return (0);
+	stack_a = ft_parse_input(argc, argv, &strategy, &bench);
+	if (!stack_a)
+		return (1);
 	set_index(stack_a);
-	printf("Estado inicial:\n");
-	print_stacks(stack_a, stack_b);
-	med_alg(&stack_a, &stack_b);
-	printf("Estado final:\n");
-	print_stacks(stack_a, stack_b);
+	if (bench)
+		disorder = compute_disorders(stack_a);
+	if (strategy == SIMPLE)
+		simple_alg(&stack_a, &stack_b);
+	else if (strategy == MEDIUM)
+		med_alg(&stack_a, &stack_b);
+	else if (strategy == COMPLEX)
+		complex_alg(&stack_a, &stack_b);
+	else
+		adaptive_alg(&stack_a, &stack_b, compute_disorders(stack_a));
+	if (bench)
+		print_bench(disorder, strategy);
 	return (0);
 }
