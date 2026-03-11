@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 13:50:23 by lugarcia          #+#    #+#             */
-/*   Updated: 2026/03/10 18:30:47 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/03/11 13:42:30 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ void	med_alg(t_stack **stack_a, t_stack **stack_b);
 void	push_chunks(t_stack **stack_a, t_stack **stack_b, int chksz, int chnks);
 void	ft_pck_op(t_stack **stack_a, t_stack **stack_b, int lst_sz, int index);
 t_stack	*ft_listlast(t_stack *lst);
+void	adaptive_alg(t_stack **a, t_stack **b, float disorder);
 
 #endif
