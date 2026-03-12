@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 11:26:33 by dhontani          #+#    #+#             */
-/*   Updated: 2026/03/11 18:31:32 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:34:16 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 // }
 
 #include "push_swap.h"
+#include "libft/libft.h"
 
 int	main(int argc, char **argv)
 {
@@ -60,12 +61,12 @@ int	main(int argc, char **argv)
 	set_index(stack_a);
 	if (bench)
 		disorder = compute_disorders(stack_a);
-	if (strategy == SIMPLE)
-		simple_alg(&stack_a, &stack_b);
+	// if (strategy == SIMPLE)
+	// 	simple_alg(&stack_a, &stack_b);
 	else if (strategy == MEDIUM)
 		med_alg(&stack_a, &stack_b);
-	else if (strategy == COMPLEX)
-		complex_alg(&stack_a, &stack_b);
+	// else if (strategy == COMPLEX)
+	// 	complex_alg(&stack_a, &stack_b);
 	else
 		adaptive_alg(&stack_a, &stack_b, compute_disorders(stack_a));
 	if (bench)

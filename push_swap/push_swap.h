@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 13:50:23 by lugarcia          #+#    #+#             */
-/*   Updated: 2026/03/11 19:03:29 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:32:39 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ t_stack	*ft_listlast(t_stack *lst);
 void	adaptive_alg(t_stack **a, t_stack **b, float disorder);
 int		ft_get_strategy(char *arg);
 int		ft_parse_flags(int argc, char **argv, int *strategy, int *bench);
+void	print_bench(float disorder, int strategy);
 
 #endif

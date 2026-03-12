@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   swap.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhontani <dhontani@student.42.fr>          #+#  +:+       +#+        */
+/*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-02-23 13:31:24 by dhontani          #+#    #+#             */
-/*   Updated: 2026-02-23 13:31:24 by dhontani         ###   ########.fr       */
+/*   Created: 2026/02/23 13:31:24 by dhontani          #+#    #+#             */
+/*   Updated: 2026/03/12 18:31:54 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	swap(t_stack *stack, char *op)
 	stack->value = stack->next->value;
 	stack->next->value = tmp;
 	if (op[0])
-		ft_printf("%s\n", op);
+		printf("%s\n", op);
 }
 
 void	sa(t_stack *stack)
@@ -39,5 +39,5 @@ void	ss(t_stack *a, t_stack *b)
 {
 	swap(a, "");
 	swap(b, "");
-	ft_printf("ss\n");
+	printf("ss\n");
 }
