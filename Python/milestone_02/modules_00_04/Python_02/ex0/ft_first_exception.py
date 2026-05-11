@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-def input_temperature(temp_str):
+def input_temperature(temp_str: str) -> int:
     print(f"Input data is '{temp_str}'")
     tempt = int(temp_str)
     print(f"Temperature is now {tempt}ºC\n")
     return tempt
 
 
-def test_temperature():
+def test_temperature() -> None:
     try:
         input_temperature("25")
     except Exception as ex:

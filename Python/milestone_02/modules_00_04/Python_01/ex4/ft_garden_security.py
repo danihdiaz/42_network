@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
 class Plant:
-    def __init__(self, name, height, age):
+    def __init__(self, name: str, height: int, age: int) -> None:
         self.name = name
         self._height = height
         self._days_old = age
 
-    def show(self):
+    def show(self) -> None:
         print(f"{self.name}: {self._height:.1f}cm, {self._days_old} days old")
 
-    def set_height(self, height):
+    def set_height(self, height: int) -> None:
         if height < 0:
             print(f"{self.name}: Error, height can't be negative")
             print("Height update rejected")
@@ -17,7 +17,7 @@ class Plant:
             self._height = height
             print(f"Height updated: {self._height}cm")
 
-    def set_age(self, age):
+    def set_age(self, age: int) -> None:
         if age < 0:
             print(f"{self.name}: Error, age can't be negative")
             print("Age update rejected")
