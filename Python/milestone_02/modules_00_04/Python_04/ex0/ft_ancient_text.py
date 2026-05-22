@@ -6,6 +6,7 @@ import sys
 def main() -> None:
     if len(sys.argv) != 2:
         print("Usage: ft_ancient_text.py <file>\n")
+        return
     else:
         print("=== Cyber Archives Recovery ===")
         print(f"Accesing file '{sys.argv[1]}'")
@@ -19,6 +20,7 @@ def main() -> None:
             print(f"File '{sys.argv[1]}' closed.\n")
         except (FileNotFoundError, PermissionError) as e:
             print(f"Error opening file '{sys.argv[1]}': {e}\n")
+            return
 
 if __name__ == "__main__":
     main()
