@@ -6,7 +6,7 @@ from typing import Any
 
 class DataProcessor(ABC):
     def __init__(self) -> None:
-        self._data: list[str] = []
+        self._data: list[tuple[int, str]] = []
         self._counter: int = 0
 
     @abstractmethod
@@ -60,7 +60,7 @@ class TextProcessor(DataProcessor):
                 self._data.append((self._counter, itm))
                 self._counter += 1
         else:
-            self._data.append((self._counter, itm))
+            self._data.append((self._counter, data))
             self._counter += 1
     
 class LogProcessor(DataProcessor):

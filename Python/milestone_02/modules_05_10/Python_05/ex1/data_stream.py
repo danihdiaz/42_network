@@ -6,8 +6,9 @@ from typing import Any
 
 class DataProcessor(ABC):
     def __init__(self) -> None:
-        self._data: list[str] = []
+        self._data: list[tuple[int, str]] = []
         self._counter: int = 0
+        self._name: str = ""
 
     @abstractmethod
     def validate(self, data: Any) -> bool:
