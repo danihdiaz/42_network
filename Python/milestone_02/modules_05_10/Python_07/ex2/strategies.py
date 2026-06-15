@@ -15,7 +15,7 @@ class BattleStrategy(ABC):
 
 class NormalStrategy(BattleStrategy):
     def act(self, creature: Creature) -> None:
-        creature.attack()
+        print(creature.attack())
 
     def is_valid(self, creature: Creature) -> bool:
         return True
@@ -23,24 +23,24 @@ class NormalStrategy(BattleStrategy):
 
 class AggresiveStrategy(BattleStrategy):
     def is_valid(self, creature: Creature) -> bool:
-        return isinstance(creature, TransformCapability):
+        return isinstance(creature, TransformCapability)
     
     def act(self, creature: Creature) -> None:
         if self.is_valid(creature):
-            creature.transform()
-            creature.attack()
-            creature.revert()
+            print(creature.transform())
+            print(creature.attack())
+            print(creature.revert())
         else:
             raise Exception(f"Battle error, aborting tournament: Invalid Creature '{creature.name}' for this aggresive strategy")
 
 
 class DefensiveStrategy(BattleStrategy):
     def is_valid(self, creature: Creature) -> bool:
-        return isinstance(creature, HealCapability):
+        return isinstance(creature, HealCapability)
 
     def act(self, creature: Creature) -> None:
         if self.is_valid(creature):
-            creature.attack()
-            creature.heal()
+            print(creature.attack())
+            print(creature.heal())
         else:
             raise Exception(f"Battle error, aborting tournament: Invalid Creature '{creature.name}' for this defensive strategy")
