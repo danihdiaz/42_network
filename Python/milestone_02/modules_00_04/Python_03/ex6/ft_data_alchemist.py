@@ -2,7 +2,9 @@
 
 import random
 
-names = ["Alice", "bob", "Charlie", "dylan", "Emma", "Gregory", "john", "kevin", "Liam"]
+names = ["Alice", "bob", "Charlie", "dylan",
+         "Emma", "Gregory", "john", "kevin", "Liam"]
+
 
 def main() -> None:
     print("=== Game Data Alchemist ===\n")
@@ -15,7 +17,8 @@ def main() -> None:
     print(f"Score dict: {score_dict}")
     scr_avg = sum(score_dict.values()) / len(score_dict.values())
     print(f"Score average is {round(scr_avg, 2)}")
-    dict_avb_avg = {key: value for key, value in score_dict.items() if value > scr_avg}
+    dict_avb_avg = {key: value for key,
+                    value in score_dict.items() if value > scr_avg}
     print(f"High scores: {dict_avb_avg}")
 
 
