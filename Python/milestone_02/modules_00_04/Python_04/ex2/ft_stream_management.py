@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import sys
-import typing
 
 
 def main() -> None:
@@ -21,7 +20,8 @@ def main() -> None:
             file.close()
             print(f"File '{sys.argv[1]}' closed.\n")
         except (FileNotFoundError, PermissionError) as e:
-            sys.stderr.write(f"[STDERR] Error opening file '{sys.argv[1]}': {e}\n")
+            sys.stderr.write(
+                f"[STDERR] Error opening file '{sys.argv[1]}': {e}\n")
             return
         if content:
             print("Transform data:\n---\n")
@@ -44,9 +44,9 @@ def main() -> None:
                     new_file.close()
                     print(f"Data saved in file '{new_name}'.\n")
                 except PermissionError as e:
-                    sys.stderr.write(f"[STDERR] Error opening file '{sys.argv[1]}': {e}\n")
+                    sys.stderr.write(
+                        f"[STDERR] Error opening file '{sys.argv[1]}': {e}\n")
 
-            
 
 if __name__ == "__main__":
     main()

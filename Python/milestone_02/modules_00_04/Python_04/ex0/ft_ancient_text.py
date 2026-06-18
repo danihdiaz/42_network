@@ -22,5 +22,6 @@ def main() -> None:
             print(f"Error opening file '{sys.argv[1]}': {e}\n")
             return
 
+
 if __name__ == "__main__":
     main()

@@ -39,7 +39,7 @@ def main() -> None:
                 new_file.write(f"{new_content}\n")
                 new_file.close()
                 print(f"Data saved in file '{new_name}'.\n")
-            
+
 
 if __name__ == "__main__":
     main()
