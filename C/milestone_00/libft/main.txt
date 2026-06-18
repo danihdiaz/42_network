@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "libft.h"
+
+void test_strlen(void)
+{
+    char *s = "Hello, 42!";
+    printf("ft_strlen: %zu | strlen: %zu\n", ft_strlen(s), strlen(s));
+}
+
+void test_strdup(void)
+{
+    char *s = "duplicate me";
+    char *dup = ft_strdup(s);
+    printf("ft_strdup: '%s' (original intact: '%s')\n", dup, s);
+    free(dup);
+}
+
+void test_substr(void)
+{
+    char *s = "0123456789";
+    char *sub = ft_substr(s, 3, 4);
+    printf("ft_substr(s, 3, 4): '%s' (expected '3456')\n", sub);
+    free(sub);
+
+    /* edge case: start fuera de rango */
+    char *sub2 = ft_substr(s, 100, 4);
+    printf("ft_substr(s, 100, 4): '%s' (expected '')\n", sub2);
+    free(sub2);
+}
+
+void test_split(void)
+{
+    char **res = ft_split("  hola   mundo  42  ", ' ');
+    for (int i = 0; res[i]; i++)
+        printf("ft_split[%d]: '%s'\n", i, res[i]);
+    /* liberar cada string y el array */
+    for (int i = 0; res[i]; i++)
+        free(res[i]);
+    free(res);
+}
+
+void test_itoa(void)
+{
+    char *a = ft_itoa(-42);
+    char *b = ft_itoa(0);
+    char *c = ft_itoa(2147483647); /* INT_MAX, caso límite */
+    printf("ft_itoa(-42): '%s'\n", a);
+    printf("ft_itoa(0): '%s'\n", b);
+    printf("ft_itoa(INT_MAX): '%s'\n", c);
+    free(a); free(b); free(c);
+}
+
+int main(void)
+{
+    test_strlen();
+    test_strdup();
+    test_substr();
+    test_split();
+    test_itoa();
+    return 0;
+}
