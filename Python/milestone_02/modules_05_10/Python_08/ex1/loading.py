@@ -46,6 +46,9 @@ try:
     def png_gen(df: pd.DataFrame) -> None:
         print("Generating visualization...")
         plt.hist(df["value"])
+        x = np.linspace(-4, 4, 100)
+        curve = np.exp(-x**2 / 2) / np.sqrt(2 * np.pi)
+        plt.plot(x, curve * len(df) * 0.60, color='red')
         plt.savefig("matrix_analysis.png")
 except AttributeError:
     pass
