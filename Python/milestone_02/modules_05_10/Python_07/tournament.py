@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 from ex0 import CreatureFactory, FlameFactory, AquaFactory
 from ex1 import HealingCreatureFactory, TransformCreatureFactory
-from ex2 import BattleStrategy, NormalStrategy, AggresiveStrategy, DefensiveStrategy
+from ex2 import (BattleStrategy,
+                 NormalStrategy,
+                 AggresiveStrategy,
+                 DefensiveStrategy
+                 )
 
 
 def battle(creatures: list[tuple[CreatureFactory, BattleStrategy]]) -> None:
@@ -23,9 +27,14 @@ def battle(creatures: list[tuple[CreatureFactory, BattleStrategy]]) -> None:
         print(e)
 
 
-def tournament(fighters: list[tuple[CreatureFactory, BattleStrategy]], name: str) -> None:
+def tournament(fighters: list[tuple[CreatureFactory, BattleStrategy]],
+               name: str) -> None:
     print(name)
-    pairs = [f"({type(f).__name__.replace('Factory', '')}+{type(s).__name__.replace('Strategy', '')})" for f, s in fighters]
+    pairs = [
+        f"({type(f).__name__.replace('Factory', '')}"
+        f"+{type(s).__name__.replace('Strategy', '')})"
+        for f, s in fighters
+    ]
     print(f" [ {', '.join(pairs)} ]")
     print("*** Tournament ***")
     print(f"{len(fighters)} opponents involved")

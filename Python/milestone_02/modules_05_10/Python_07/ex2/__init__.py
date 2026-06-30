@@ -1,1 +1,5 @@
-from .strategies import NormalStrategy, AggresiveStrategy, DefensiveStrategy, BattleStrategy
+from .strategies import (NormalStrategy,
+                         AggresiveStrategy,
+                         DefensiveStrategy,
+                         BattleStrategy
+                         )
