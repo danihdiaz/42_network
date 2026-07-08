@@ -33,6 +33,5 @@ def display() -> None:
         print(sys.path[-1])
 
 
-
 if __name__ == "__main__":
     display()

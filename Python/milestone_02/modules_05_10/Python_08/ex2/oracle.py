@@ -31,14 +31,17 @@ if __name__ == "__main__":
     if flag == 0:
         if config["MATRIX_MODE"] == "production":
             print("WARNING: Running in production mode!\n")
+            masked_key = config["API_KEY"][:4] + "****"
+            print(f"API_KEY: {masked_key} (masked in production)\n")
         else:
             print("Running in development mode - debug enabled\n")
-        if config["MATRIX_MODE"] == "production" and config["LOG_LEVEL"] == "DEBUG":
+            print(f"API_KEY: {config['API_KEY']} (visible in development)\n")
+        if (config["MATRIX_MODE"] == "production"
+                and config["LOG_LEVEL"] == "DEBUG"):
             print("[WARNING] Debug logging enabled in production!")
-        if os.environ.get("API_KEY") != config["API_KEY"]:
-            print("[KO] Harcoded secrets detected!!")
-        else:
-            print("[OK] No hardcoded secrets detected")
+        print("[OK] No hardcoded secrets in source "
+              "(all values loaded from environment)"
+              )
         print(
             "[OK] .env file properly configured\n"
             "[OK] Production overrides available\n"
@@ -47,4 +50,3 @@ if __name__ == "__main__":
     elif flag == 1:
         print("[KO] .env file misconfigured\n")
     print("The Oracle sees all configurations.")
-

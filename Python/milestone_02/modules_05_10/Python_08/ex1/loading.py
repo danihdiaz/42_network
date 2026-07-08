@@ -38,7 +38,7 @@ def dependency_checker() -> None:
         )
 
 
-def data_gen() -> pd.DataFrame:
+def data_gen() -> "pd.DataFrame":
     if np is None or pd is None:
         raise RuntimeError("numpy or pandas not available")
     data = np.random.randn(1000)
@@ -48,7 +48,7 @@ def data_gen() -> pd.DataFrame:
     return df
 
 
-def png_gen(df: pd.DataFrame) -> None:
+def png_gen(df: "pd.DataFrame") -> None:
     if plt is None or np is None:
         raise RuntimeError("matplotlib not available")
     print("Generating visualization...")

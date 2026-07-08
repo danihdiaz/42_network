@@ -3,6 +3,7 @@ name = "matrix_project"
 version = "1.0.0"
 description = ""
 authors = ["Daniel Hontanilla <dhontani@student.42madrid.com>"]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.10"
