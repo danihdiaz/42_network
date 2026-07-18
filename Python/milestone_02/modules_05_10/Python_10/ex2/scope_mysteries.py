@@ -3,8 +3,10 @@
 from collections.abc import Callable
 from typing import Any
 
+
 def mage_counter() -> Callable:
     count = 0
+
     def increase_count() -> int:
         nonlocal count
         count += 1
@@ -29,8 +31,10 @@ def enchantment_factory(enchantment_type: str) -> Callable:
 
 def memory_vault() -> dict[str, Callable]:
     vault = {}
+
     def store(key: str, value: Any) -> None:
         vault[key] = value
+
     def recall(key: str) -> Any:
         if key not in vault.keys():
             return "Memory not found"

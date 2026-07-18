@@ -57,6 +57,7 @@ def spell_dispatcher() -> Callable[[Any], str]:
         return f"Multi-cast: {len(value)} spells"
     return process
 
+
 if __name__ == "__main__":
     print("\n==== Testing functools artifacts ====\n")
     spell_powers = [29, 26, 33, 11, 20, 49]
@@ -84,6 +85,7 @@ if __name__ == "__main__":
     print(f"Fib(10): {memoized_fibonacci(10)}")
     print(memoized_fibonacci.cache_info())
     print(f"Fib(15): {memoized_fibonacci(15)}")
+    print(memoized_fibonacci.cache_info())
     print("\nTesting spell dispatcher...")
     dispatcher = spell_dispatcher()
     print(dispatcher(42))
