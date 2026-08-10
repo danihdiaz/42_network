@@ -1,0 +1,75 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   codexion.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/07 20:07:15 by dhontani          #+#    #+#             */
+/*   Updated: 2026/08/10 20:03:53 by dhontani         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+#include <limits.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <sys/time.h>
+
+typedef struct s_config
+{
+	int		number_of_coders;
+	int		time_to_burnout;
+	int		time_to_compile;
+	int		time_to_debug;
+	int		time_to_refactor;
+	int		number_of_compiles_required;
+	int		dongle_cooldown;
+	int		scheduler;
+}	t_config;
+
+typedef struct s_simulation	t_simulation;
+
+typedef struct s_dongle
+{
+	pthread_mutex_t	lock;
+	long			last_release;
+	int				is_taken;
+	pthread_cond_t	cooldown;
+}	t_dongle;
+
+typedef struct s_person
+{
+	int				number;
+	int				compile_count;
+	long			last_compile;
+	t_dongle		*right;
+	t_dongle		*left;
+	t_simulation	*sim;
+}	t_person;
+
+typedef struct s_simulation
+{
+	t_config		*config;
+	t_person		*people;
+	t_dongle		*dongles;
+	pthread_mutex_t	log_lock;
+	pthread_mutex_t	compile_lock;
+	pthread_cond_t	compile_signal;
+	int				stop;
+	pthread_mutex_t	stop_lock;
+}	t_simulation;
+
+
+int				parser(char **args, t_config *config);
+long			get_time_ms(void);
+t_simulation	*simulation_init(t_config *config);
+void			*person_life(void *arg);
+void			log_message(t_person *person, char *state);
+int				get_dongles(t_person *person);
+void			release_dongles(t_person *person);
+struct timespec	ms_to_timespec(long time);
+void			*monitor(void *arg);
+int				check_stop(t_simulation *sim);
