@@ -38,7 +38,7 @@ make re     # Cleans and recompiles everything from scratch
 The program accepts the following command-line arguments:
 
 ```bash
-./codexion <number_of_coders> <time_to_burnout> <time_to_compile> <time_to_debug> <time_to_refactor> <number_of_dongles> <cooldown_time> <scheduler_type>
+./codexion <number_of_coders> <time_to_burnout> <time_to_compile> <time_to_debug> <time_to_refactor> <number_of_compiles required> <dongle_cooldown> <scheduler>
 ```
 
 #### Parameters:
@@ -47,9 +47,9 @@ The program accepts the following command-line arguments:
 * `time_to_compile`: Time in ms spent in the compilation phase.
 * `time_to_debug`: Time in ms spent in the debugging phase.
 * `time_to_refactor`: Time in ms spent in the refactoring phase.
-* `number_of_dongles`: Total number of shared dongles available.
-* `cooldown_time`: Cooldown period in ms a dongle must undergo before being reused.
-* `scheduler_type`: Scheduling algorithm (`fifo` or `edf`).
+* `number of compiles required`: Total number of compiles per coder needed to end the simulation.
+* `dongle_cooldown`: Cooldown period in ms a dongle must undergo before being reused.
+* `scheduler`: Scheduling algorithm (`fifo` or `edf`).
 
 #### Example Usage:
 
@@ -103,8 +103,9 @@ The project utilizes POSIX primitives to guarantee a thread-safe environment:
 * **POSIX Threads Programming:** IEEE standard specification and tutorials on `pthread_mutex_t`, `pthread_cond_t`, and thread management.
 * **Operating System Concepts (Silberschatz, Galvin, Gagne):** Chapters on process synchronization, classical concurrency problems, and resource scheduling.
 * **Data Structures - Binary Min-Heap:** Theoretical documentation on priority queues and heap implementation using dynamic arrays.
+* **Beej's Guide to C Programming:** Theoretical documentation on pretty much everything regarding C programming language.
 
 ### AI Usage Declaration
 In accordance with project regulations, the use of AI tools during development is detailed below:
 * **Refactoring and Concurrency Debugging:** Assistance in diagnosing data race errors detected by Helgrind in helper functions (`log_utils.c`) and identifying index errors when destroying mutexes in cleanup loops (`clean_utils.c`).
-* **Makefile Design and Documentation:** Assistance with technical explanations of compilation phases (`.o`, `-c`, pattern substitution) and in generating this `README.md` file following the structure required by the evaluation sheet.
+* **Makefile Design and Documentation:** Assistance with technical explanations of compilation phases (`.o`, `-c`, pattern substitution) and in writing this `README.md` file following the structure required by the evaluation sheet.
