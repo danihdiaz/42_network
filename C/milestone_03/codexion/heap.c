@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 18:34:00 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/12 18:10:34 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/13 18:27:42 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ static int	get_best_node(t_heap *heap, int i, int mode)
 t_wait_node	heap_pop(t_heap *heap, int mode)
 {
 	int			i;
-	int			right;
-	int			left;
 	int			best;
 	t_wait_node	topop;
 

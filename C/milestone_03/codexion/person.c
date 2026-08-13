@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/09 13:11:55 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/12 19:26:27 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/13 18:27:19 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	compile(t_person *person)
 void	*person_life(void *arg)
 {
 	t_person		*person;
-	int				stop;
 
 	person = (t_person *)arg;
 	while (!check_stop(person->sim))
