@@ -6,51 +6,57 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/08 20:01:59 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/10 19:11:09 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/13 13:49:04 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	main(int argc, char **argv)
+static void	start_threads(t_simulation *sim, pthread_t *threads)
 {
-	int				i;
-	int				j;
-	char			**args;
-	t_config		*to_parse;
-	t_simulation	*simulation;
-	pthread_t		*threads;
-	pthread_t		t_monitor;
+	int			i;
+	pthread_t	t_monitor;
 
-	if (argc != 9)
-		return (1);
-	i = 1;
-	j = 0;
-	args = malloc(sizeof(char *) * (argc - 1));
-	to_parse = malloc(sizeof(t_config));
-	while (argv[i])
-	{
-		args[j] = argv[i];
-		i++;
-		j++;
-	}
-	if (parser(args, to_parse))
-		return (1);
-	simulation = simulation_init(to_parse);
-	threads = malloc(sizeof(pthread_t) * to_parse->number_of_coders);
+	pthread_create(&t_monitor, NULL, monitor, sim);
 	i = 0;
-	pthread_create(&t_monitor, NULL, monitor, simulation);
-	while (i < to_parse->number_of_coders)
+	while (i < sim->config->number_of_coders)
 	{
-		pthread_create(&threads[i], NULL, person_life, &simulation->people[i]);
+		pthread_create(&threads[i], NULL, person_life, &sim->people[i]);
 		i++;
 	}
 	i = 0;
-	while (i < to_parse->number_of_coders)
+	while (i < sim->config->number_of_coders)
 	{
 		pthread_join(threads[i], NULL);
 		i++;
 	}
 	pthread_join(t_monitor, NULL);
-	return (0);
+}
+
+int	main(int argc, char **argv)
+{
+	char			**args;
+	t_config		*to_parse;
+	t_simulation	*sim;
+	pthread_t		*threads;
+
+	if (argc != 9)
+		return (1);
+	args = malloc(sizeof(char *) * (argc - 1));
+	to_parse = malloc(sizeof(t_config));
+	if (!to_parse || !args)
+		return (free(args), free(to_parse), 1);
+	while (argv[--argc] && argc > 0)
+		args[argc - 1] = argv[argc];
+	if (parser(args, to_parse))
+		return (free(args), free(to_parse), 1);
+	sim = simulation_init(to_parse);
+	if (!sim)
+		return (free(args), free(to_parse), 1);
+	threads = malloc(sizeof(pthread_t) * to_parse->number_of_coders);
+	if (!threads)
+		return (clean_simulation(sim), free(args), free(to_parse), 1);
+	start_threads(sim, threads);
+	clean_simulation(sim);
+	return (free(args), free(to_parse), free(threads), 0);
 }

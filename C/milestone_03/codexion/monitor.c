@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:37:02 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/10 20:55:03 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/13 12:02:33 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,16 @@ int	all_compiled(t_simulation *sim)
 {
 	int	i;
 	int	rquired_comp;
-	int	count;
 
-	count = sim->config->number_of_coders;
 	i = 0;
 	rquired_comp = sim->config->number_of_compiles_required;
-	while (1)
+	while (i < sim->config->number_of_coders)
 	{
-		while (count != 0)
-		{
-			if (i > count)
-				i = 0;
-			if (sim->people[i].compile_count >= rquired_comp)
-				count--;
-			i++;
-		}
-		return (1);
+		if (sim->people[i].compile_count < rquired_comp)
+			return (0);
+		i++;
 	}
+	return (1);
 }
 
 long	get_min_burnout(t_simulation *sim, int *index)
@@ -43,7 +36,7 @@ long	get_min_burnout(t_simulation *sim, int *index)
 
 	i = 0;
 	min = sim->people[i].last_compile + sim->config->time_to_burnout;
-	*index = i;
+	*index = 0;
 	while (i < sim->config->number_of_coders)
 	{
 		deadline = sim->people[i].last_compile + sim->config->time_to_burnout;
@@ -64,41 +57,43 @@ int	wait_for_burnout(t_simulation *sim, int *indx)
 	int				index;
 
 	index = 0;
-	while (1)
+	pthread_mutex_lock(&sim->compile_lock);
+	while (!check_stop(sim))
 	{
 		if (all_compiled(sim))
+		{
+			pthread_mutex_unlock(&sim->compile_lock);
 			return (2);
+		}
 		min = get_min_burnout(sim, &index);
-		ts = ms_to_timespec(min);
 		if (get_time_ms() >= min)
 		{
 			*indx = index;
+			pthread_mutex_unlock(&sim->compile_lock);
 			return (1);
 		}
-		pthread_mutex_lock(&sim->compile_lock);
+		ts = ms_to_timespec(min);
 		pthread_cond_timedwait(&sim->compile_signal, &sim->compile_lock, &ts);
-		pthread_mutex_unlock(&sim->compile_lock);
 	}
+	pthread_mutex_unlock(&sim->compile_lock);
+	return (0);
 }
 
 void	*monitor(void *arg)
 {
 	t_simulation	*sim;
-	int				stop;
+	int				status;
 	int				index;
 
-	index = 0;
 	sim = (t_simulation *)arg;
-	pthread_mutex_lock(&sim->stop_lock);
-	stop = sim->stop;
-	pthread_mutex_unlock(&sim->stop_lock);
-	while (stop == 0)
-		stop = wait_for_burnout(sim, &index);
+	index = 0;
+	status = wait_for_burnout(sim, &index);
+	if (status == 0)
+		return (NULL);
 	pthread_mutex_lock(&sim->stop_lock);
 	sim->stop = 1;
 	pthread_mutex_unlock(&sim->stop_lock);
-	if (stop == 2)
-		return (NULL);
-	printf("%ld %d burned out\n", get_time_ms(), sim->people[index].number);
+	if (status == 1)
+		printf("%ld %d burned out\n", get_time_ms(), sim->people[index].number);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 17:44:20 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/08 20:12:08 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/13 14:14:47 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,38 +73,48 @@ void	write_to_config(int index, int value, t_config *conf)
 		conf->scheduler = value;
 }
 
+static int	check_num_arg(char *arg, char *name, int index)
+{
+	int	num;
+
+	num = ft_atoi_check(arg);
+	if (index == 6 && num < 0)
+	{
+		fprintf(stderr, "Can't use negatives in 'dongle_cooldown'\n");
+		return (-1);
+	}
+	if (index != 6 && num <= 0)
+	{
+		fprintf(stderr, "Can't use negatives or 0 in '%s'\n", name);
+		return (-1);
+	}
+	return (num);
+}
+
 int	parser(char **args, t_config *config)
 {
 	int		i;
 	int		num;
-	char	**parameters;
+	char	**params;
 
 	i = 0;
-	parameters = get_names();
+	params = get_names();
 	while (i < 7)
 	{
-		num = ft_atoi_check(args[i]);
-		if (i == 6 && num < 0)
-		{
-			fprintf(stderr, "Can't use negatives in 'dongle_cooldown'\n");
+		num = check_num_arg(args[i], params[i], i);
+		if (num == -1)
 			return (1);
-		}
-		if (num <= 0 && i != 6)
-		{
-			fprintf(stderr, "Can't use negatives or 0 in '%s'\n", parameters[i]);
-			return (1);
-		}
 		write_to_config(i, num, config);
 		i++;
 	}
-	if (strcmp(args[i], "fifo") && strcmp(args[i], "edf"))
+	if (!strcmp(args[i], "fifo"))
+		write_to_config(i, 0, config);
+	else if (!strcmp(args[i], "edf"))
+		write_to_config(i, 1, config);
+	else
 	{
 		fprintf(stderr, "scheduler must be either 'fifo' or 'edf'\n");
 		return (1);
 	}
-	if (args[i] == "fifo")
-		write_to_config(i, 0, config);
-	if (args[i] == "edf")
-		write_to_config(i, 1, config);
 	return (0);
 }
