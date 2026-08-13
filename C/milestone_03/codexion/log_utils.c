@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/09 17:52:34 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/13 17:57:13 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/13 19:18:38 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ void	log_message(t_person *person, char *state)
 	char	**colors;
 
 	pthread_mutex_lock(&person->sim->log_lock);
+	if (check_stop(person->sim))
+	{
+		pthread_mutex_unlock(&person->sim->log_lock);
+		return ;
+	}
 	colors = get_colors();
 	if (!strcmp(state, "has taken a dongle"))
 		printf("%s%ld %d %s\033[0m\n",

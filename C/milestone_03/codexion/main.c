@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/08 20:01:59 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/13 13:49:04 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/13 19:36:10 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv)
 	pthread_t		*threads;
 
 	if (argc != 9)
-		return (1);
+		return (printf("U must enter 8 arguments, no less, no more\n"), 1);
 	args = malloc(sizeof(char *) * (argc - 1));
 	to_parse = malloc(sizeof(t_config));
 	if (!to_parse || !args)

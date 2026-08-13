@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:37:02 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/13 12:02:33 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/13 19:00:24 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,10 @@ void	*monitor(void *arg)
 	sim->stop = 1;
 	pthread_mutex_unlock(&sim->stop_lock);
 	if (status == 1)
+	{
+		pthread_mutex_lock(&sim->log_lock);
 		printf("%ld %d burned out\n", get_time_ms(), sim->people[index].number);
+		pthread_mutex_unlock(&sim->log_lock);
+	}
 	return (NULL);
 }
