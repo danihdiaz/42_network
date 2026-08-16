@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/08 20:01:59 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/13 19:36:10 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/16 12:51:22 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int argc, char **argv)
 	to_parse = malloc(sizeof(t_config));
 	if (!to_parse || !args)
 		return (free(args), free(to_parse), 1);
-	while (argv[--argc] && argc > 0)
+	while (argc-- > 1)
 		args[argc - 1] = argv[argc];
 	if (parser(args, to_parse))
 		return (free(args), free(to_parse), 1);
