@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/08 18:34:45 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/13 12:05:41 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/20 13:23:59 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_simulation	*simulation_init(t_config *config)
 	simulation->people = people;
 	pthread_mutex_init(&simulation->log_lock, NULL);
 	simulation->stop = 0;
+	simulation->start = get_time_ms();
 	pthread_mutex_init(&simulation->stop_lock, NULL);
 	pthread_mutex_init(&simulation->compile_lock, NULL);
 	pthread_cond_init(&simulation->compile_signal, NULL);

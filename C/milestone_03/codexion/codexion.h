@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 20:07:15 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/13 13:27:22 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/20 13:23:37 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_simulation
 	pthread_cond_t	compile_signal;
 	int				stop;
 	pthread_mutex_t	stop_lock;
+	long			start;
 }	t_simulation;
 
 int				parser(char **args, t_config *config);

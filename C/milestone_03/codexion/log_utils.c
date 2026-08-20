@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/09 17:52:34 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/13 19:18:38 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/20 13:27:04 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	**get_colors(void)
 void	log_message(t_person *person, char *state)
 {
 	char	**colors;
+	long	time;
 
 	pthread_mutex_lock(&person->sim->log_lock);
 	if (check_stop(person->sim))
@@ -40,11 +41,12 @@ void	log_message(t_person *person, char *state)
 		return ;
 	}
 	colors = get_colors();
+	time = get_time_ms() - person->sim->start;
 	if (!strcmp(state, "has taken a dongle"))
 		printf("%s%ld %d %s\033[0m\n",
-			colors[person->number % 7], get_time_ms(), person->number, state);
+			colors[person->number % 7], time, person->number, state);
 	else
 		printf("%s%ld %d is %s\033[0m\n",
-			colors[person->number % 7], get_time_ms(), person->number, state);
+			colors[person->number % 7], time, person->number, state);
 	pthread_mutex_unlock(&person->sim->log_lock);
 }
