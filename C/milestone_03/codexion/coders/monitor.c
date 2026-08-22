@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:37:02 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/20 13:30:40 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/22 19:53:27 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,18 @@ int	wait_for_burnout(t_simulation *sim, int *indx)
 	return (0);
 }
 
+void	print_end(t_simulation *sim, int mode, int index)
+{
+	pthread_mutex_lock(&sim->log_lock);
+	if (mode == 1)
+		printf("%ld %d burned out\n", get_time_ms() - sim->start,
+			sim->people[index].number);
+	else
+		printf("All coders completed %d compilations!\n",
+			sim->config->number_of_compiles_required);
+	pthread_mutex_unlock(&sim->log_lock);
+}
+
 void	*monitor(void *arg)
 {
 	t_simulation	*sim;
@@ -93,12 +105,6 @@ void	*monitor(void *arg)
 	pthread_mutex_lock(&sim->stop_lock);
 	sim->stop = 1;
 	pthread_mutex_unlock(&sim->stop_lock);
-	if (status == 1)
-	{
-		pthread_mutex_lock(&sim->log_lock);
-		printf("%ld %d burned out\n", get_time_ms() - sim->start,
-			sim->people[index].number);
-		pthread_mutex_unlock(&sim->log_lock);
-	}
+	print_end(sim, status, index);
 	return (NULL);
 }

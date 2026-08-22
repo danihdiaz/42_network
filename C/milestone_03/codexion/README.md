@@ -53,10 +53,37 @@ The program accepts the following command-line arguments:
 
 #### Example Usage:
 
+### 1. Standard case — clean completion
+
+Coders alternate dongle usage comfortably and finish their required compilations without anyone starving.
+
 ```bash
-./codexion 4 1000 200 200 200 2 100 fifo
+./codexion 4 700 100 100 100 2 50 fifo
 ```
 
+### 2. Forced burnout
+
+`time_to_burnout` is shorter than a full compile-debug-refactor cycle, so any coder left waiting too long for a shared dongle starves before reaching their next compilation.
+
+```bash
+./codexion 4 150 100 100 100 3 50 fifo
+```
+
+### 3. Boundary condition
+
+With 3 coders sharing dongles in a circle, only one can compile at a time, forcing strict sequential turns. This sets an exact mathematical survival threshold: `750ms` per full rotation + `1ms` margin = `751ms`. Because that 1ms margin is on the same order as normal thread-scheduling jitter, occasional burnouts can occur at exactly 751ms depending on OS timing. `752ms` gives a small safety margin and survives reliably.
+
+```bash
+./codexion 3 752 50 50 50 4 200 fifo
+```
+
+### 4. High-concurrency stress test
+
+100 threads competing for 100 shared dongles under heavy lock contention, without deadlocks or data races, and with `time_to_burnout` generous enough for the compilation "wave" to reach every coder.
+
+```bash
+./codexion 100 2000 20 20 20 5 0 fifo
+```
 ---
 
 ## ⛔ Blocking cases handled
@@ -67,10 +94,9 @@ This implementation explicitly manages classic problems in concurrent systems:
   * **Mutual Exclusion:** Access to each individual dongle is protected by its own mutex (`pthread_mutex_t`).
   * **Hold and Wait:** Coders acquire dongles via a structured priority queue, avoiding indefinite blockings while holding partial resources.
   * **No Preemption:** Dongle release is voluntary upon finishing the work phase.
-  * **Circular Wait:** Resource allocation is centralized through a priority queue (Min-Heap) strictly ordered by arrival time (FIFO) or closeness to *burnout* (EDF), guaranteeing a total order of acquisition.
+  * **Circular Wait:** Each coder always acquires their two dongles in a fixed, consistent order — comparing pointer addresses (`person->left < person->right`) to decide which one to request first, regardless of the coder's position in the circle. This guarantees that no two coders can ever be waiting on each other in a cycle, since every coder follows the same global ordering rule.
 * **Starvation Prevention:**
-  * The **EDF** (*Earliest Deadline First*) scheduler dynamically prioritizes coders in the Min-Heap whose *burnout* deadline is closest.
-  * The **FIFO** scheduler guarantees that first-come, first-served order is strictly maintained.
+  * Within each dongle's individual waiting queue, a **Min-Heap** orders competing coders either by arrival time (**FIFO**) or by closeness to *burnout* (**EDF**), guaranteeing fair and deterministic access once the dongle becomes available.
 * **Cooldown Management:**
   * Each dongle maintains an availability timestamp. No coder can acquire a dongle that is currently in its cooldown period, coordinated via condition variables (`pthread_cond_t`).
 * **Accurate Burnout Detection:**
@@ -87,7 +113,7 @@ The project utilizes POSIX primitives to guarantee a thread-safe environment:
 * **`pthread_mutex_t`:**
   * **Logging Mutex (`log_lock`):** Ensures that printing to stdout is atomic and threads do not interleave output lines.
   * **Dongle Mutex (`dongle.lock`):** Protects the individual structures of each dongle and access to its waiting queue / Min-Heap.
-  * **Coder State Mutex:** Synchronizes reading and writing of the last meal/completion timestamp between the *coder* threads and the *monitor* thread.
+  * **Coder State Mutex:** Synchronizes reading and writing of the last compilation timestamp (`last_compile`) between the *coder* threads and the *monitor* thread.
 * **`pthread_cond_t`:**
   * **Dongle Condition Variable (`dongle.av_cond`):** Notifies waiting threads when a dongle has finished its cooldown period and becomes available again.
 * **Thread-Safe Coder-Monitor Communication:**
