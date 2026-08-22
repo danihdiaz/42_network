@@ -6,13 +6,13 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/09 18:18:44 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/13 19:10:39 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/21 20:52:27 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-static void	wait_loop(t_dongle *dongle, long cd_deadline, t_person *person)
+void	wait_loop(t_dongle *dongle, long cd_deadline, t_person *person)
 {
 	struct timespec	cd;
 
@@ -33,60 +33,31 @@ static void	wait_loop(t_dongle *dongle, long cd_deadline, t_person *person)
 	}
 }
 
-int	wait_for_dongle(t_dongle *dongle, int cooldown, t_person *person)
-{
-	long			cd_deadline;
-	t_wait_node		node;
-
-	pthread_mutex_lock(&dongle->lock);
-	node.person = person;
-	node.arrival_time = get_time_ms();
-	node.burnout_deadline = person->last_compile
-		+ person->sim->config->time_to_burnout;
-	heap_push(&dongle->heap, &node, person->sim->config->scheduler);
-	cd_deadline = dongle->last_release + cooldown;
-	wait_loop(dongle, cd_deadline, person);
-	heap_pop(&dongle->heap, person->sim->config->scheduler);
-	dongle->is_taken = 1;
-	log_message(person, "has taken a dongle");
-	pthread_mutex_unlock(&dongle->lock);
-	return (0);
-}
-
-static void	release_single_dongle(t_dongle *dongle)
-{
-	pthread_mutex_lock(&dongle->lock);
-	dongle->is_taken = 0;
-	dongle->last_release = get_time_ms();
-	pthread_cond_broadcast(&dongle->av_cond);
-	pthread_mutex_unlock(&dongle->lock);
-}
-
 int	get_dongles(t_person *person)
 {
-	int	cd;
+	int			cd;
+	t_wait_node	node_first;
+	t_wait_node	node_second;
+	t_dongle	*first;
+	t_dongle	*second;
 
 	cd = person->sim->config->dongle_cooldown;
-	if (person->number % 2 == 0)
+	if (person->left < person->right)
 	{
-		if (wait_for_dongle(person->right, cd, person))
-			return (1);
-		if (wait_for_dongle(person->left, cd, person))
-		{
-			release_single_dongle(person->right);
-			return (1);
-		}
+		first = person->left;
+		second = person->right;
 	}
 	else
 	{
-		if (wait_for_dongle(person->left, cd, person))
-			return (1);
-		if (wait_for_dongle(person->right, cd, person))
-		{
-			release_single_dongle(person->left);
-			return (1);
-		}
+		first = person->right;
+		second = person->left;
 	}
+	register_in_dongle(first, person, &node_first);
+	register_in_dongle(second, person, &node_second);
+	acquire_dongle(first, cd, person);
+	unregister_from_dongle(first, person);
+	acquire_dongle(second, cd, person);
+	unregister_from_dongle(second, person);
 	return (0);
 }
 

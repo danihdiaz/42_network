@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 20:07:15 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/20 13:23:37 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/21 20:57:10 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,13 @@ void			*heap_init(t_heap *heap, int capacity);
 void			clean_dongles(t_simulation *sim);
 void			clean_people(t_simulation *sim);
 void			clean_simulation(t_simulation *sim);
+long			get_real_time_ms(t_simulation *sim);
+void			register_in_dongle(t_dongle *dongle, t_person *person,
+					t_wait_node *node);
+void			acquire_dongle(t_dongle *dongle, int cooldown,
+					t_person *person);
+void			unregister_from_dongle(t_dongle *dongle, t_person *person);
+void			release_single_dongle(t_dongle *dongle);
+void			wait_loop(t_dongle *dongle, long cd_deadline, t_person *person);
 
 #endif

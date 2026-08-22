@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/08 19:22:48 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/13 13:18:56 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/20 20:31:18 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ long	get_time_ms(void)
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
+
+long	get_real_time_ms(t_simulation *sim)
+{
+	return (get_time_ms() - sim->start);
 }
 
 void	clean_simulation(t_simulation *sim)

@@ -6,6 +6,7 @@ SRCS = main.c \
 	init.c \
 	parser.c \
 	dongles.c \
+	dongle_utils.c \
 	person.c \
 	monitor.c \
 	heap.c \

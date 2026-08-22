@@ -6,7 +6,7 @@
 /*   By: dhontani <dhontani@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/08 18:34:45 by dhontani          #+#    #+#             */
-/*   Updated: 2026/08/20 13:23:59 by dhontani         ###   ########.fr       */
+/*   Updated: 2026/08/20 20:38:20 by dhontani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ t_simulation	*simulation_init(t_config *config)
 	if (!simulation)
 		return (NULL);
 	simulation->config = config;
+	simulation->start = get_time_ms();
 	dongles = dongle_init(config->number_of_coders);
 	simulation->dongles = dongles;
 	people = people_init(config->number_of_coders, dongles, simulation);
 	simulation->people = people;
 	pthread_mutex_init(&simulation->log_lock, NULL);
 	simulation->stop = 0;
-	simulation->start = get_time_ms();
 	pthread_mutex_init(&simulation->stop_lock, NULL);
 	pthread_mutex_init(&simulation->compile_lock, NULL);
 	pthread_cond_init(&simulation->compile_signal, NULL);
