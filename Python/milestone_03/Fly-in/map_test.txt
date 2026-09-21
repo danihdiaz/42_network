@@ -1,0 +1,12 @@
+nb_drones: 20
+
+start_hub: hub 0 0 [color=green]
+end_hub: goal 5 5 [color=yellow]
+hub: roof1 2 2
+hub: corridorA 3 1 [zone=priority color=blue max_drones=2]
+hub: tunnelB 4 3 [zone=restricted]
+hub: obstacleX 3 3 [zone=blocked]
+connection: hub-roof1
+connection: roof1-corridorA [max_link_capacity=2]
+connection: corridorA-tunnelB
+connection: tunnelB-goal
