@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from network import Network
 from parser import parser
 from exceptions import ParseError
 import sys

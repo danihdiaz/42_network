@@ -1,4 +1,4 @@
-from zone import NormalZone, PriorityZone, RestrictedZone, BlockedZone
+from zone import Zone, NormalZone, PriorityZone, RestrictedZone, BlockedZone
 from connection import Connection
 from network import Network
 import re
@@ -45,7 +45,8 @@ def parser(filepath: str) -> Network:
             try:
                 key, value = clean_line.split(":", 1)
             except ValueError:
-                raise ParseError(nb, "Bad syntax: format must be 'str: something'")
+                raise ParseError(
+                    nb, "Bad syntax: format must be 'str: something'")
             key, value = key.strip(), value.strip()
             if key not in handlers:
                 raise ParseError(nb, f"Invalid key: {key}")
@@ -61,8 +62,11 @@ def parse_hub_line(line: int, key: str, value: str, network: Network) -> None:
         hub, x, y = parts[0].split()
     except ValueError:
         raise ParseError(line, "Zone line must have format 'name x y'")
+    if "-" in hub:
+        raise ParseError(
+            line, "Hyphen character '-' and spaces not allowed in zone names")
     try:
-        x, y = int(x), int(y)
+        int_x, int_y = int(x), int(y)
     except ValueError:
         raise ParseError(line, "Zone coordinates must be integers")
     zone_classes = {
@@ -76,7 +80,7 @@ def parse_hub_line(line: int, key: str, value: str, network: Network) -> None:
     color = None
     max_drones = 1
     if len(parts) not in (1, 2):
-        raise ParseError(line, "Only 1 block of metadata allowed") 
+        raise ParseError(line, "Only 1 block of metadata allowed")
     if len(parts) == 2:
         metadata = extract_metadata(line, parts[1])
         for meta_key in metadata.keys():
@@ -84,55 +88,71 @@ def parse_hub_line(line: int, key: str, value: str, network: Network) -> None:
                 raise ParseError(line, f"Key '{meta_key}' not valid")
         zone_type = metadata.get("zone", zone_type)
         if zone_type not in zone_classes.keys():
-            raise ParseError(line, f"Invalid value '{zone_type}' for zone type")
+            raise ParseError(
+                line, f"Invalid value '{zone_type}' for zone type")
         color = metadata.get("color", color)
         try:
             max_drones = int(metadata.get("max_drones", max_drones))
-            if max_drones <= 0:
+            if max_drones <= 0 and key != "start_hub" and key != "end_hub":
                 raise ValueError
         except ValueError:
             raise ParseError(line, "max_drones only accepts positive integers")
     if key == "start_hub":
-        new_zone = NormalZone(hub, x, y, color, network.nb_drones)
+        if network.start is not None:
+            raise ParseError(line, "'start_hub' already defined")
+        new_zone: Zone = NormalZone(hub, int_x, int_y, color,
+                                    network.nb_drones)
         network.add_zone(new_zone, line)
         network.start = hub
     elif key == "end_hub":
+        if network.end is not None:
+            raise ParseError(line, "'end_hub' already defined")
         if zone_type == "blocked":
-            raise ParseError(line, "end_hub can't be blocked, for obvious reasons")
-        new_zone = zone_classes[zone_type](hub, x, y, color, network.nb_drones)
+            raise ParseError(
+                line, "end_hub can't be blocked, for obvious reasons")
+        new_zone = zone_classes[zone_type](
+            hub, int_x, int_y, color, network.nb_drones)
         network.add_zone(new_zone, line)
         network.end = hub
     else:
-        new_zone = zone_classes[zone_type](hub, x, y, color, max_drones)
+        new_zone = zone_classes[zone_type](
+            hub, int_x, int_y, color, max_drones)
         network.add_zone(new_zone, line)
 
 
 def parse_connection_line(line: int, value: str, network: Network) -> None:
     parts = value.split("[")
-    zone_pairs = re.findall(r"(\w+)-(\w+)", value)
-    if zone_pairs:
-        pairs_sum = len(zone_pairs[0][0]) + len(zone_pairs[0][1])
-    if len(zone_pairs) != 1 or pairs_sum != len(parts[0].replace("-", "").strip()):
-        raise ParseError(line, "A connection must have a single 'zone-zone' format")
+    zone_pairs = parts[0].strip().split("-")
+    if len(zone_pairs) != 2:
+        raise ParseError(
+            line, "A connection must have a single 'zone-zone' format")
     max_link = 1
     if len(parts) not in (1, 2):
         raise ParseError(line, "Only 1 block of metadata allowed")
     if len(parts) == 2:
         metadata = extract_metadata(line, parts[1])
         if len(metadata) > 1:
-            raise ParseError(line, "max_link_capacity must have a single 'max_link_capacity=int' format")
-        if metadata and "max_link_capacity" not in metadata.keys():
-                raise ParseError(line, "Only max_link_capacity allowed for connections")
-        try:
-            max_link = int(metadata["max_link_capacity"])
-            if max_link <= 0:
-                raise ValueError
-        except ValueError:
-            raise ParseError(line, "max_link only accepts positive integers")
-    if zone_pairs[0][0] not in network.zones or zone_pairs[0][1] not in network.zones:
+            raise ParseError(
+                line, "max_link_capacity must have a single "
+                "'max_link_capacity=int' format"
+            )
+        if len(metadata) == 1 and "max_link_capacity" not in metadata.keys():
+            raise ParseError(
+                line, "Only max_link_capacity allowed for connections")
+        if metadata:
+            try:
+                max_link = int(metadata["max_link_capacity"])
+                if max_link <= 0:
+                    raise ValueError
+            except ValueError:
+                raise ParseError(
+                    line, "max_link only accepts positive integers")
+    if (zone_pairs[0] not in network.zones
+            or zone_pairs[1] not in network.zones):
         raise ParseError(line, "One or both given zones don't exist")
-    connection = Connection(zone_pairs[0], max_link)
+    connection = Connection((zone_pairs[0], zone_pairs[1]), max_link)
     network.add_connection(connection, line)
+
 
 def extract_metadata(line: int, metadata: str) -> dict[str, str]:
     if "]" not in metadata:
@@ -141,7 +161,8 @@ def extract_metadata(line: int, metadata: str) -> dict[str, str]:
         if metadata.count("]") > 1:
             raise ParseError(line, "Too many closing brackets ']'")
         if not metadata.endswith("]"):
-            raise ParseError(line, "Line must end with the closing bracket ']'")
+            raise ParseError(
+                line, "Line must end with the closing bracket ']'")
     if "=" not in metadata:
         if metadata.replace(" ", "").replace("]", "") != "":
             raise ParseError(line, "only 'str=str' format allowed")

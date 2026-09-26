@@ -2,12 +2,13 @@ from zone import Zone
 from connection import Connection
 from exceptions import ParseError
 
+
 class Network:
     def __init__(self, nb_drones: int):
         self.nb_drones = nb_drones
         self.zones: dict[str, Zone] = {}
-        self.start = None
-        self.end = None
+        self.start: str | None = None
+        self.end: str | None = None
         self.connections: dict[str, list[Connection]] = {}
 
     def add_zone(self, zone: Zone, line: int) -> None:
