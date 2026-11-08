@@ -44,17 +44,19 @@ class Scheduler:
 
 def try_move_restricted(self, drone: Drone) -> bool:
     target = drone.route[0]
+    trgt_zone = self.network.zones[target]
     current = drone.current_zone
+    arrival_turn = self.current_turn + 1
+    reserv_key = (target, arrival_turn)
     for conn in self.network.connections[current]:
         if current in conn.zones and target in conn.zones:
             if (len(conn.occupants) < conn.max_link_capacity
-                    and len(self.network.zones[target].occupants) + self.reservation_table.get((target, current_turn + 1), 0) < self.network.zones[target].max_drones):
-                conn.occupants.append(self.current_turn)
-                key = (target, self.current_turn + 1)
-                self.reservation_table[key] = self.reservation_table.get(key, 0) + 1
-                self.network.zones[target].occupants.add(drone.drone_id)
+                    and len(trgt_zone.occupants) + self.reservation_table.get(reserv_key, 0) < trgt_zone.max_drones):
+                conn.occupants.append(arrival_turn)
+                self.reservation_table[reserv_key] = self.reservation_table.get(reserv_key, 0) + 1
                 self.network.zones[current].occupants.remove(
                     drone.drone_id)
+                drone.in_transit = True
                 return True
     return False
 
